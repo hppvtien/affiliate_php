@@ -16,7 +16,7 @@
                     </li>
                     <li class="breadcrumb-item text-muted">User Management</li>
                     <li class="breadcrumb-item text-muted">Users</li>
-                    <li class="breadcrumb-item text-dark">View User</li>
+                    <li class="breadcrumb-item text-dark">Create User</li>
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
@@ -40,30 +40,40 @@
         <!--end::Container-->
     </div>
     <!--end::Header-->
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <div class="container-xxl" id="kt_content_container">
             <div class="d-flex flex-column flex-xl-row">
                 <div class="flex-column flex-lg-row-auto w-100 mb-10">
                     <div class="card mb-5 mb-xl-8">
-                        <form id="kt_modal_add_user_form" class="form fv-plugins-bootstrap5 fv-plugins-framework ml-10"
-                            action="#" style="margin-left: 10px">
+                        <form method="POST"
+                            class="form fv-plugins-bootstrap5 fv-plugins-framework ml-10"
+                            action="{{ route('users.store') }}" style="margin-left: 10px">
                             <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll">
-                                <div class="fv-row mb-7">
+                                {{-- <div class="fv-row mb-7">
                                     <label class="d-block fw-bold fs-6 mb-5">Avatar</label>
-                                    
                                     <div class="image-input image-input-outline" data-kt-image-input="true"
                                         style="background-image: url({{ asset('media/avatars/blank.png') }})">
                                         <div class="image-input-wrapper w-125px h-125px"
-                                            style="background-image: url({{ asset('media/avatars/150-1.jpg') }});"></div>
+                                            style="background-image: url({{ asset('media/avatars/150-1.jpg') }});">
+                                        </div>
                                         <label
                                             class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                             data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
                                             data-bs-original-title="Change avatar">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-                                            <input type="hidden" name="avatar_remove">
                                         </label>
-                                        
+
                                         <span
                                             class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                             data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
@@ -80,58 +90,61 @@
                                     </div>
                                     <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
                                     <!--end::Hint-->
-                                </div>
-                            
+                                </div> --}}
+
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
                                     <label class="required fw-bold fs-6 mb-2">Full Name</label>
-                                    
-                                    <input type="text" name="user_name"
-                                        class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name"
-                                        value="Emma Smith">
-                                    <!--end::Input-->
+                                    <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="Full name" value="">
                                     <div class="fv-plugins-message-container invalid-feedback"></div>
                                 </div>
-                            
+
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
                                     <label class="required fw-bold fs-6 mb-2">Email</label>
-                                    
-                                    <input type="email" name="user_email"
+                                    <input type="email" name="email"
                                         class="form-control form-control-solid mb-3 mb-lg-0"
-                                        placeholder="example@domain.com" value="e.smith@kpmg.com.au">
-                                    <!--end::Input-->
+                                        placeholder="tienpv@gmail.com" value="">
                                     <div class="fv-plugins-message-container invalid-feedback"></div>
                                 </div>
-                            
+                                <div class="fv-row mb-7 fv-plugins-icon-container">
+                                    <label class="required fw-bold fs-6 mb-2">Password</label>
+                                    <input type="password" name="password"
+                                        class="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="Password" value="">
+                                    <div class="fv-plugins-message-container invalid-feedback"></div>
+                                </div>
+                                <div class="fv-row mb-7 fv-plugins-icon-container">
+                                    <label class="required fw-bold fs-6 mb-2">Confirm Password</label>
+                                    <input type="password" name="confirm-password"
+                                        class="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="Confirm Password" value="">
+                                    <div class="fv-plugins-message-container invalid-feedback"></div>
+                                </div>
                                 <div class="mb-7">
                                     <label class="required fw-bold fs-6 mb-5">Role</label>
+                                    @foreach($roles as $value)
                                     <div class="d-flex fv-row">
                                         <div class="form-check form-check-custom form-check-solid">
-                                            <input class="form-check-input me-3" name="user_role" type="radio" value="4"
-                                                id="kt_modal_update_role_option_4">
-                                            <!--end::Input-->
-                                            <label class="form-check-label" for="kt_modal_update_role_option_4">
-                                                <div class="fw-bolder text-gray-800">Trial</div>
-                                                <div class="text-gray-600">Best for people who need to preview content
-                                                    data, but don't need to make any updates</div>
+                                            <input class="form-check-input me-3" name="roles[]" type="radio"
+                                                value="{{ $value->id }}"
+                                                id="kt_modal_update_role_option_{{ $value->id }}">
+                                            <label class="form-check-label"
+                                                for="kt_modal_update_role_option_{{ $value->id }}">
+                                                <div class="fw-bolder text-gray-800">{{ $value->name }}</div>
                                             </label>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="text-center pt-15 pb-15">
-                                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                                    <span class="indicator-label">Submit</span>
-                                    <span class="indicator-progress">Please wait...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                </button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
-                            <!--end::Actions-->
-                            <div></div>
                         </form>
                         <!--end::Card body-->
                     </div>
                 </div>
-         
+
             </div>
         </div>
         <!--end::Container-->
