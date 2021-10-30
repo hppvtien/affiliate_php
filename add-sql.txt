@@ -1,0 +1,1 @@
+ALTER TABLE `product_lotproduct` ADD `product_size` INT(2) NOT NULL AFTER `product_id`;

@@ -140,4 +140,32 @@ return [
 
         'store' => 'default',
     ],
+
+    'group' => [
+        1 => "Mặc định",
+        2 => "Sản phẩm",
+        3 => "Danh mục sản phẩm",
+        4 => "Màu sắc sản phẩm",
+        5 => "Thương hiệu sản phẩm",
+        6 => "Kích thước sản phẩm",
+        7 => "Nhà cung cấp sản phẩm",
+        9 => "Lô sản phẩm",
+        10 => "Tag",
+        11 => "Quản lý đại lý",
+        12 => "Combo đại lý",
+        13 => "Danh mục tin tức",
+        14 => "Quản lý tin tức",
+        15 => "Slide",
+        16 => "Page",
+        17 => "Order",
+        18 => "Bill",
+        19 => "Voucher",
+        20 => "Đánh giá bình luận",
+        21 => "Liên hệ",
+        22 => "Người dùng",
+        23 => "permission",
+        24 => "role",
+        25 => "Admin",
+        26 => "Campaign",
+    ]
 ];

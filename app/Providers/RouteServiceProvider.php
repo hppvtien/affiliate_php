@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Session;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -18,7 +18,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
-
     /**
      * The controller namespace for the application.
      *
@@ -26,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    // protected $namespace = 'App\\Http\\Controllers';
+    protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -35,9 +34,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
 
         $this->routes(function () {
+            // $lang_code = (Session::get('website_language') == null ? 'vi' : Session::get('website_language'));
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
